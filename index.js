@@ -1,7 +1,5 @@
 // Loading Discord library and token
 const Discord = require('discord.js');
-const token = 'NTYxMzE3ODIxNzEyMTcxMDA5.XJ9b3g.ioRFn0Xg7VsMsq3fhBayEYHEz5M';
-const prefix = '';
 
 // Loading custom modules
 const controlCommand = require('./controlCommands');
