@@ -1,0 +1,2 @@
+# GLaDOSDiscordBot
+Personal DiscordJS bot
