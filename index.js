@@ -66,7 +66,7 @@ bot.on('message', async message => {
         let reason = args.join(' ').slice(22);
         if (reason.length > 700)    // If report message is more than 700 symbols. This is because if goes more than 1024 it crashes
             return message.delete().catch(O_o=>{}), // Deletes the message from channel
-            console.log(reason.length, 'Reason lenght'), // Send on console the lenght of the report message
+            // console.log(reason.length, 'Reason lenght'), // Send on console the lenght of the report message
             message.author.send('Kopele ko prai6?'); // Send private message the user who reporting, he is writing big message
 
         let reportEmbed = new Discord.RichEmbed()
