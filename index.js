@@ -58,6 +58,35 @@ bot.on('message', async message => {
         return message.channel.send(serverembed);
     }
 
+
+    // Report command
+    if (cmd === `${prefix}report`) {
+        let rUser = message.guild.member(message.mentions.users.first() || message.guild.members.get(args[0]));
+        if (!rUser) return message.channel.send('Couln\'t find user.');
+        let reason = args.join(' ').slice(22);
+        if (reason.length > 700)    // If report message is more than 700 symbols. This is because if goes more than 1024 it crashes
+            return message.delete().catch(O_o=>{}), // Deletes the message from channel
+            console.log(reason.length, 'Reason lenght'), // Send on console the lenght of the report message
+            message.author.send('Kopele ko prai6?'); // Send private message the user who reporting, he is writing big message
+
+        let reportEmbed = new Discord.RichEmbed()
+        .setDescription('Reports')
+        .setColor('#15f153')
+        .addField('Reported User', `${rUser} with ID ${rUser.id}`)
+        .addField('Reported by:', `${message.author} with ID: ${message.author.id}`)
+        .addField('Channel', message.channel)
+        .addField('Time', message.createdAt)
+        .addField('Reason:', reason);
+
+        let reportsChannel = message.guild.channels.find(x => x.name === 'reports');
+        if (!reportsChannel) return message.channel.send('Couldn\'t find reports channel');
+        
+        message.delete().catch(O_o=>{});
+        reportsChannel.send(reportEmbed);
+        return;
+    }
+
+
 });
 
 bot.login(botconfig.token);
