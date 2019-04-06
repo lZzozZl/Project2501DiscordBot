@@ -58,7 +58,6 @@ bot.on('message', async message => {
         return message.channel.send(serverembed);
     }
 
-
     // Report command
     if (cmd === `${prefix}report`) {
         let rUser = message.guild.member(message.mentions.users.first() || message.guild.members.get(args[0]));
@@ -83,6 +82,32 @@ bot.on('message', async message => {
         
         message.delete().catch(O_o=>{});
         reportsChannel.send(reportEmbed);
+        return;
+    }
+
+    if (cmd  === `${prefix}kick`) {        
+        // |kick @person reason here
+        let kUser = message.guild.member(message.mentions.users.first() || message.guild.members.get(args[0]));
+        if (!kUser) return message.channel.send('Couln\'t find user.');
+        let kReason = args.join(' ').slice(22); //.slice(22) - testvai
+        if (!message.member.hasPermission('KICK_MEMBERS')) return message.channel.send('This member cannot kick');
+        if (kUser.hasPermission('KICK_MEMBERS')) return message.channel.send('That person can\'t be kicked!'); // https://github.com/AnIdiotsGuide/discordjs-bot-guide/blob/master/understanding/roles.md
+        
+
+        let kickEmbed = new Discord.RichEmbed()
+        .setDescription('Kick')
+        .setColor('e56b00')
+        .addField('Kicked User', `${kUser} with ID: ${kUser.id}`)
+        .addField('Kicked by:', `<@${message.author.id}> with ID: ${message.author.id}`)
+        .addField('Kicked In', message.channel)
+        .addField('Time', message.createdAt)
+        .addField('Reason', kReason);
+
+        let kickChannel = message.guild.channels.find(x => x.name === 'incidents');
+        if (!kickChannel) return message.channel.send('Cant find incidents channel.');
+
+        message.guild.member(kUser).kick(kReason);
+        kickChannel.send(kickEmbed);        
         return;
     }
 
